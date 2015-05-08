@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\AndroidStudioProject\WeatherApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="D:\AndroidStudioProject\WeatherApp\app\build\intermediates\pre-dexed\debug\classes-731571c443754be89c82308afc80e9e0b031339d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Hop\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="D:\AndroidStudioProject\WeatherApp\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-222152fe2a6ee3c4a0049a7b770d86c91630f329.jar" />
+    </item>
+    <item
+        jar="D:\AndroidStudioProject\WeatherApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="D:\AndroidStudioProject\WeatherApp\app\build\intermediates\pre-dexed\debug\classes-96dca972a2eb5bc1afe1a5861b59f1b47b135187.jar" />
+    </item>
+    <item
+        jar="D:\AndroidStudioProject\WeatherApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="D:\AndroidStudioProject\WeatherApp\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-5291a963b54afe823ab4eeeb833919f67e21f543.jar" />
+    </item>
+
+</items>
