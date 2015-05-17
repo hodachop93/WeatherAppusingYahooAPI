@@ -1,6 +1,6 @@
 package jsonmodel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Item {
     private Condition condition;
-    private ArrayList<Forecast> forecasts;
+    private List<Forecast> forecast;
 
     public Condition getCondition() {
         return condition;
@@ -18,11 +18,11 @@ public class Item {
         this.condition = condition;
     }
 
-    public ArrayList<Forecast> getForecasts() {
-        return forecasts;
+    public List<Forecast> getForecast() {
+        return forecast;
     }
 
-    public void setForecasts(ArrayList<Forecast> forecasts) {
-        this.forecasts = forecasts;
+    public void setForecast(List<Forecast> forecast) {
+        this.forecast = forecast;
     }
 }

@@ -9,6 +9,15 @@ public class Forecast {
     private String day;
     private String high;
     private String text;
+    private String low;
+
+    public String getLow() {
+        return low;
+    }
+
+    public void setLow(String low) {
+        this.low = low;
+    }
 
     public String getCode() {
         return code;

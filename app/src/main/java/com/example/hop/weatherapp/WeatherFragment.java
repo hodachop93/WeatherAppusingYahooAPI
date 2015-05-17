@@ -1,16 +1,19 @@
 package com.example.hop.weatherapp;
 
+
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -18,7 +21,11 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.List;
 
+import jsonmodel.Channel;
+import jsonmodel.Forecast;
+import jsonmodel.Item;
 import jsonmodel.YahooWeatherData;
 
 
@@ -33,8 +40,10 @@ public class WeatherFragment extends Fragment {
     TextView txtDescription;
     TextView txtSunrise, txtSunset;
     TextView txtWind, txtHumidity, txtPressure;
-    String jsonString;
-    YahooWeatherData yhdata;
+    String jsonString = null;
+    YahooWeatherData yhdata = null;
+    String city;
+
     public WeatherFragment() {
 
     }
@@ -62,63 +71,107 @@ public class WeatherFragment extends Fragment {
     }
 
     public void updateWeather(final String city) {
-        new SendDataThread().execute();
+        new SendDataThread().execute(city);
     }
-
-    private void renderWeather() {
-        String city = yhdata.getQuery().getResults().getChannel().getLocation().getCity();
-        String country = yhdata.getQuery().getResults().getChannel().getLocation().getCountry();
-        String lastBuildDate = yhdata.getQuery().getResults().getChannel().getLastBuildDate().substring(0, 11);
-        try {
-            txtCityCountry.setText(String.format("%s, %s", city, country));
-            txtLastUpdated.setText("Last updated: " + lastBuildDate);
-            
-        } catch (Exception e) {
-            Log.e("SimpleWeather", "One or more fields not found in the JSON data");
-        }
-    }
-
-
 
     public void changeCity(String city) {
         updateWeather(city);
+        this.city = city;
     }
 
-    class SendDataThread extends AsyncTask<Void, Void, Void> {
+    class SendDataThread extends AsyncTask<String, Void, Boolean> {
+
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Boolean doInBackground(String... params) {
+            Boolean result;
             byte[] sendData = new byte[1024];
             byte[] receiveData = new byte[4095];
             try {
                 DatagramSocket clientSocket = new DatagramSocket();
                 InetAddress IPAddress = InetAddress.getByName("10.0.3.2");
-                String ip = IPAddress.toString();
-                String sentence = "Da Nang";
+                String sentence = params[0];
                 sendData = sentence.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData,
                         sentence.length(), IPAddress, 8876);
                 clientSocket.send(sendPacket);
-
                 DatagramPacket receivePacket = new DatagramPacket(receiveData,
                         receiveData.length);
                 clientSocket.receive(receivePacket);
                 String receivedSentence = new String(receivePacket.getData()).substring(0, receivePacket.getLength());
                 jsonString = receivedSentence;
-                convertJSONToJavaClass();
+                yhdata = new Gson().fromJson(jsonString, YahooWeatherData.class);
+                List<Forecast> forecastArrayList = yhdata.getQuery().getResults().getChannel().getItem().getForecast();
+                if (yhdata != null) {
+                    ForecastPreference.setForecasts(forecastArrayList);
+                }
+                publishProgress();
+                result = true;
             } catch (SocketException e) {
                 e.printStackTrace();
+                result = false;
             } catch (UnknownHostException e) {
                 e.printStackTrace();
+                result = false;
             } catch (IOException e) {
                 e.printStackTrace();
+                result = false;
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+                result = false;
+            } catch (Exception e){
+                e.printStackTrace();
+                result = false;
             }
-            return null;
+            return result;
+
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            //Get data
+            Channel channel = yhdata.getQuery().getResults().getChannel();
+            Item item = channel.getItem();
+            List<Forecast> f = item.getForecast();
+            String city = channel.getLocation().getCity();
+            String country = channel.getLocation().getCountry();
+            String lastBuildDate = channel.getLastBuildDate().substring(0, 11);
+            int resourceID = getResources().getIdentifier("@drawable/icon_" + channel.getItem().getCondition().getCode(),
+                    null, WeatherActivity.PACKAGE_NAME);
+            Drawable weatherIcon = getResources().getDrawable(resourceID);
+            int temperature = Integer.parseInt(channel.getItem().getCondition().getTemp());
+            String description = channel.getItem().getCondition().getText();
+            String sunrise = channel.getAstronomy().getSunrise();
+            String sunset = channel.getAstronomy().getSunrise();
+            String wind = channel.getWind().getSpeed();
+            String humidity = channel.getAtmosphere().getHumidity();
+            String pressure = channel.getAtmosphere().getPressure();
+
+            //Update  Interface
+            txtCityCountry.setText(String.format("%s, %s", city, country));
+            txtLastUpdated.setText("Last updated: " + lastBuildDate);
+            iconWeather.setImageDrawable(weatherIcon);
+            char tmp = 0x00B0;
+            txtTemperature.setText((((temperature - 32) * 5) / 9) + " " + (char) 0x00B0 + "C");
+            txtDescription.setText(description);
+            txtSunrise.setText(sunrise);
+            txtSunset.setText(sunset);
+            txtWind.setText(wind + " mph");
+            txtHumidity.setText(humidity + " %");
+            txtPressure.setText(pressure + " in");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if (aBoolean) {
+                CityPreference cityPref = new CityPreference(getActivity());
+                cityPref.setCity(city);
+            } else {
+                Toast.makeText(getActivity(), "Sorry, no weather data found", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
-    private void convertJSONToJavaClass() {
-        yhdata = new Gson().fromJson(jsonString, YahooWeatherData.class);
-        renderWeather();
-    }
+
 }
