@@ -3,7 +3,6 @@ package com.example.hop.weatherapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
@@ -11,13 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 
 
 public class WeatherActivity extends ActionBarActivity {
@@ -30,60 +22,19 @@ public class WeatherActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-        txt = (TextView) findViewById(R.id.textViewTest);
         PACKAGE_NAME = getPackageName();
         wf = new WeatherFragment();
-        ff = new ForecastFragment();
+
         if (savedInstanceState == null)
             getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, wf).commit();
-        //new SendDataThread1().execute();
+
     }
 
-    class SendDataThread1 extends AsyncTask<Void, String, Void> {
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            byte[] sendData = new byte[1024];
-            byte[] receiveData = new byte[4095];
-            try {
-                DatagramSocket clientSocket = new DatagramSocket();
-                InetAddress IPAddress = InetAddress.getByName("10.0.3.2");
-                String sentence = "";
-                sendData = sentence.getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(sendData,
-                        sentence.length(), IPAddress, 8876);
-                clientSocket.send(sendPacket);
-
-                DatagramPacket receivePacket = new DatagramPacket(receiveData,
-                        receiveData.length);
-                clientSocket.receive(receivePacket);
-                String receivedSentence = new String(receivePacket.getData()).substring(0, receivePacket.getLength());
-                /*int i = receivePacket.getLength();
-                receivedSentence = receivedSentence.substring(0, i);*/
-                publishProgress(receivedSentence);
-
-            } catch (SocketException e) {
-                e.printStackTrace();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            txt.setText(values[0]);
-        }
-    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -106,9 +57,8 @@ public class WeatherActivity extends ActionBarActivity {
     }
 
     private void showforecast() {
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, ff).commit();
-
+        Intent intent = new Intent(this, ForecastActivity.class);
+        startActivity(intent);
     }
 
     private void showInputDialog() {

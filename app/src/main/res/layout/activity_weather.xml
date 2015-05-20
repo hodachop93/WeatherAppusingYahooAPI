@@ -18,9 +18,4 @@
     tools:ignore="MergeRootFrame"
     tools:context="com.example.hop.weatherapp.WeatherActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewTest"
-        />
 </LinearLayout>

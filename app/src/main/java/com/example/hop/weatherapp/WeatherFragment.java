@@ -68,6 +68,7 @@ public class WeatherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         updateWeather(new CityPreference(getActivity()).getCity());
+
     }
 
     public void updateWeather(final String city) {
@@ -143,7 +144,7 @@ public class WeatherFragment extends Fragment {
             int temperature = Integer.parseInt(channel.getItem().getCondition().getTemp());
             String description = channel.getItem().getCondition().getText();
             String sunrise = channel.getAstronomy().getSunrise();
-            String sunset = channel.getAstronomy().getSunrise();
+            String sunset = channel.getAstronomy().getSunset();
             String wind = channel.getWind().getSpeed();
             String humidity = channel.getAtmosphere().getHumidity();
             String pressure = channel.getAtmosphere().getPressure();

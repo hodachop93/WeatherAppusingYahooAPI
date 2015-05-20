@@ -27,6 +27,7 @@ public class ForecastFragment extends Fragment {
     TextView txtForecast3_date, txtForecast3_temperature, txtForecast3_text;
     ImageView imgViewForcast3;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class ForecastFragment extends Fragment {
         txtForecast3_temperature = (TextView) rootView.findViewById(R.id.forecast3_temperature);
         txtForecast3_text = (TextView) rootView.findViewById(R.id.forecast3_text);
         imgViewForcast3 = (ImageView) rootView.findViewById(R.id.forecast3_icon);
+
+       /* backButton = (ImageButton) rootView.findViewById(R.id.backButton);*/
         return rootView;
     }
 
@@ -89,9 +92,11 @@ public class ForecastFragment extends Fragment {
 
     class UpdateForecast extends AsyncTask<Void, Void, Void> {
         List<Forecast> forecasts;
+
         public UpdateForecast(List<Forecast> _forecasts) {
             this.forecasts = _forecasts;
         }
+
         @Override
         protected Void doInBackground(Void... params) {
             publishProgress();
@@ -110,7 +115,7 @@ public class ForecastFragment extends Fragment {
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));
             low = ConvertFtoC(Integer.parseInt(tempData.getLow()));
-            temperature = "" + low +"/" + high + " " + (char) 0x00B0 + "C";
+            temperature = "" + low + "/" + high + " " + (char) 0x00B0 + "C";
             description = tempData.getText();
             //Cap nhat du lieu
             txtForecast0_date.setText(date);
@@ -124,7 +129,7 @@ public class ForecastFragment extends Fragment {
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));
             low = ConvertFtoC(Integer.parseInt(tempData.getLow()));
-            temperature = "" + low +"/" + high + " " + (char) 0x00B0 + "C";
+            temperature = "" + low + "/" + high + " " + (char) 0x00B0 + "C";
             description = tempData.getText();
             //Cap nhat du lieu
             txtForecast1_date.setText(date);
@@ -138,7 +143,7 @@ public class ForecastFragment extends Fragment {
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));
             low = ConvertFtoC(Integer.parseInt(tempData.getLow()));
-            temperature = "" + low +"/" + high + " " + (char) 0x00B0 + "C";
+            temperature = "" + low + "/" + high + " " + (char) 0x00B0 + "C";
             description = tempData.getText();
             //Cap nhat du lieu
             txtForecast2_date.setText(date);
@@ -152,7 +157,7 @@ public class ForecastFragment extends Fragment {
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));
             low = ConvertFtoC(Integer.parseInt(tempData.getLow()));
-            temperature = "" + low +"/" + high + " " + (char) 0x00B0 + "C";
+            temperature = "" + low + "/" + high + " " + (char) 0x00B0 + "C";
             description = tempData.getText();
             //Cap nhat du lieu
             txtForecast3_date.setText(date);

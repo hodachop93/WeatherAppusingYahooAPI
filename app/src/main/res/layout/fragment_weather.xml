@@ -199,10 +199,11 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="220dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:background="@drawable/yahoo_logo" />
+        android:src="@mipmap/yahoo_logo"
+        android:background="@android:color/transparent"/>
 
 </LinearLayout>
