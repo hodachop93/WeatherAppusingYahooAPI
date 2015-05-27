@@ -1,8 +1,11 @@
 package com.example.hop.weatherapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
@@ -10,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class WeatherActivity extends ActionBarActivity {
@@ -17,6 +21,7 @@ public class WeatherActivity extends ActionBarActivity {
     public static String PACKAGE_NAME;
     WeatherFragment wf;
     ForecastFragment ff;
+    private final String TAG = "myApp";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,14 +29,22 @@ public class WeatherActivity extends ActionBarActivity {
         setContentView(R.layout.activity_weather);
         PACKAGE_NAME = getPackageName();
         wf = new WeatherFragment();
-
         if (savedInstanceState == null)
             getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, wf).commit();
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,11 +65,49 @@ public class WeatherActivity extends ActionBarActivity {
             case R.id.forecast:
                 showforecast();
                 break;
+            case R.id.weatherMap:
+                showWeatherMapActivity();
+                break;
         }
         return true;
     }
 
+    private void showWeatherMapActivity() {
+        if (!isNetworkConnected()) {
+               Toast.makeText(this, "Vui long kiem tra ket noi Internet", Toast.LENGTH_LONG).show();
+        return;
+    }
+
+        Intent myintent = new Intent(this, WeatherMapActivity.class);
+        startActivity(myintent);
+
+    }
+/*
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        } else
+            return true;
+    }*/
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private void showforecast() {
+        if (!isNetworkConnected()) {
+            Toast.makeText(this, "Vui long kiem tra ket noi Internet", Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent intent = new Intent(this, ForecastActivity.class);
         startActivity(intent);
     }

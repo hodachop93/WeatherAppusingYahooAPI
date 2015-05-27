@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/txtDiaChi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Địa chỉ hiện tại"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ff1919ff" />
+
+    <!--Tạo đường kẻ ngang-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="1dp"
+        android:background="#ff06ff22" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/txtNhietDoHienTai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Nhiệt độ hiện tại"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffff2d34" />
+
+    <!--Tạo đường kẻ ngang-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="1dp"
+        android:background="#ff06ff22" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sky:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/anhBauTroi"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
+    <!--Tạo đường kẻ ngang-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="1dp"
+        android:background="#ff06ff22" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Description" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <TextView
+                    android:text="Min_Temp:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+                <TextView
+                    android:id="@+id/txtNhietDoNhoNhat"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Nhiệt độ nhỏ nhất"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Max_Temp:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+                <TextView
+                    android:id="@+id/txtNhietDoLonNhat"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Nhiệt độ lớn nhất"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Wind:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+                <TextView
+                    android:id="@+id/txtTocDoGio"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Tốc độ gió"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Pressure:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+                <TextView
+                    android:id="@+id/txtApSuat"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Áp suất"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Humidity:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+                <TextView
+                    android:id="@+id/txtDoAm"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Độ ẩm"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Sunrise:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+                <TextView
+                    android:id="@+id/txtMatTroiMoc"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Mặt trời mọc"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Sunset:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+                <TextView
+                    android:id="@+id/txtMatTroiLang"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Mặt trời lặng"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>

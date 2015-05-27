@@ -91,7 +91,7 @@ public class WeatherFragment extends Fragment {
             try {
                 DatagramSocket clientSocket = new DatagramSocket();
                 InetAddress IPAddress = InetAddress.getByName("10.0.3.2");
-                String sentence = params[0];
+                String sentence = "CityName-" + params[0];
                 sendData = sentence.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData,
                         sentence.length(), IPAddress, 8876);
@@ -120,7 +120,7 @@ public class WeatherFragment extends Fragment {
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
                 result = false;
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 result = false;
             }

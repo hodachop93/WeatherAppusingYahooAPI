@@ -110,7 +110,7 @@ public class ForecastFragment extends Fragment {
             Forecast tempData;
 
             //Get du lieu
-            tempData = forecasts.get(0);
+            tempData = forecasts.get(1);
             date = tempData.getDate().substring(0, 7);
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));
@@ -124,7 +124,7 @@ public class ForecastFragment extends Fragment {
             txtForecast0_text.setText(description);
 
             //Get du lieu
-            tempData = forecasts.get(1);
+            tempData = forecasts.get(2);
             date = tempData.getDate().substring(0, 7);
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));
@@ -138,7 +138,7 @@ public class ForecastFragment extends Fragment {
             txtForecast1_text.setText(description);
 
             //Get du lieu
-            tempData = forecasts.get(2);
+            tempData = forecasts.get(3);
             date = tempData.getDate().substring(0, 7);
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));
@@ -152,7 +152,7 @@ public class ForecastFragment extends Fragment {
             txtForecast2_text.setText(description);
 
             //Get du lieu
-            tempData = forecasts.get(0);
+            tempData = forecasts.get(4);
             date = tempData.getDate().substring(0, 7);
             resourceID = getResources().getIdentifier("@drawable/icon_" + tempData.getCode(), null, WeatherActivity.PACKAGE_NAME);
             high = ConvertFtoC(Integer.parseInt(tempData.getHigh()));

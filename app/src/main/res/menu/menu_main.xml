@@ -6,7 +6,7 @@
     <item
         android:id="@+id/about"
         android:title="@string/about"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         app:showAsAction="never"/>
     <item
         android:id="@+id/change_city"
@@ -17,6 +17,11 @@
         android:id="@+id/forecast"
         android:orderInCategory="2"
         android:title="@string/ForecastMenu"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/weatherMap"
+        android:orderInCategory="3"
+        android:title="Weather on Google Map"
         app:showAsAction="never"/>
 
 </menu>
