@@ -3,8 +3,6 @@ package com.example.hop.weatherapp;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,12 +11,9 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import modelopenweather.OpenWeatherJSon;
 
@@ -77,6 +72,7 @@ public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         String sunrise = timeSunrise.getHours() + ":" + timeSunrise.getMinutes() + " AM";
         Date timeSunSet = new Date(openWeatherJSon.getSys().getSunset() * 1000);
         String sunset = timeSunSet.getHours() + ":" + timeSunSet.getMinutes() + " PM";
+        String addressFromOpenWeather = openWeatherJSon.getName();
 
         //Cap nhat du lieu
         txtNhietDoHienTai.setText(cur_temp);
@@ -87,9 +83,10 @@ public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         txtDoAm.setText(humidity);
         txtMatTroiMoc.setText(sunrise);
         txtMatTroiLang.setText(sunset);
+        anhBauTroi.setImageBitmap(myBitmap);
 
         //Lay dia chi tren Google Map
-        try {
+        /*try {
             Geocoder geocoder;
             List<Address> addresses;
             geocoder = new Geocoder(this.context, Locale.getDefault());
@@ -105,7 +102,8 @@ public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+        txtDiaChi.setText(addressFromOpenWeather);
         v.setBackgroundColor (Color.WHITE);
         return v;
     }

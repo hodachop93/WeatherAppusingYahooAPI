@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.URL;
@@ -34,6 +35,8 @@ public class WeatherMapActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ProgressDialog progressDialog;
+    private boolean infoWindowIsShow = false;
+    private Marker lastMarker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class WeatherMapActivity extends FragmentActivity {
                 moveAndShowWeather(latLng);
             }
         });
+        mMap.setOnMarkerClickListener(new MarkerClickListener());
     }
 
     private void moveAndShowWeather(LatLng latLng) {
@@ -63,7 +67,8 @@ public class WeatherMapActivity extends FragmentActivity {
 
             /*WeatherAsyncTask task=new WeatherAsyncTask(maker,mMap,WeatherMapsActivity.this,latLng.latitude,latLng.longitude);
             task.execute();*/
-            CameraPosition cameraPosition = new CameraPosition(latLng, 15, 40, 90);
+            int mZoom = 6;
+            CameraPosition cameraPosition = new CameraPosition(latLng, mZoom, 0, 0);
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
@@ -71,6 +76,8 @@ public class WeatherMapActivity extends FragmentActivity {
             Marker marker = mMap.addMarker(markerOptions);
             SendLocationThread myThread = new SendLocationThread(this, latLng.latitude, latLng.longitude, marker);
             myThread.execute();
+            if (lastMarker != null)
+                lastMarker.remove();
         }
     }
 
@@ -106,20 +113,22 @@ public class WeatherMapActivity extends FragmentActivity {
         //Toa do thanh pho Da Nang
         double latitude = 16.07;
         double longtitude = 108.22;
-        float mZoom = 15;
-        float mtilt = 40;
-        float mbearing = 90;
+        float mZoom = 6;
+        float mtilt = 0;
+        float mbearing = 00;
 
         //Khoi tao mot vi tri moi cho camera
         CameraPosition cam = new CameraPosition(new LatLng(latitude, longtitude), mZoom, mtilt, mbearing);
         //Update Map den vi tri ta vua moi khoi tao
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cam));
         //Them Marker  cho Map
-        MarkerOptions markerOptions = new MarkerOptions();
+        /*MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title("Đà Nẵng");
         markerOptions.position(new LatLng(latitude, longtitude));
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         Marker marker = mMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+*/
 
 
     }
@@ -179,9 +188,11 @@ public class WeatherMapActivity extends FragmentActivity {
                 jsonString = receivedSentence;
                 openWeatherJSon = new Gson().fromJson(jsonString, OpenWeatherJSon.class);
                 String idIcon = openWeatherJSon.getWeather().get(0).getIcon();
+                //get icon
                 String urlIcon = "http://openweathermap.org/img/w/"+idIcon+".png";
                 URL url = new URL(urlIcon);
-                InputStream is = url.openStream();
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                InputStream is = httpURLConnection.getInputStream();
                 bitmap = BitmapFactory.decodeStream(is);
                 publishProgress();
             } catch (SocketException e) {
@@ -210,8 +221,43 @@ public class WeatherMapActivity extends FragmentActivity {
                 mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(activity, marker, openWeatherJSon, bitmap, latitude, longtitude));
                 marker.showInfoWindow();
                 this.dialog.dismiss();
+
                 return;
             }
+        }
+    }
+
+    private class MarkerClickListener implements GoogleMap.OnMarkerClickListener {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+
+            if(lastMarker == null){
+                marker.showInfoWindow();
+                lastMarker = marker;
+                infoWindowIsShow=true;
+            }else
+            if (marker.getId().equals(lastMarker.getId())) {
+                if (infoWindowIsShow) {
+                    marker.hideInfoWindow();
+                    infoWindowIsShow = false;
+                } else {
+                    marker.showInfoWindow();
+                    infoWindowIsShow = true;
+                }
+            }
+            else{
+                if (infoWindowIsShow) {
+                    lastMarker.hideInfoWindow();
+                    marker.showInfoWindow();
+                    infoWindowIsShow = true;
+                    lastMarker = marker;
+                } else {
+                    marker.showInfoWindow();
+                    infoWindowIsShow = true;
+                    lastMarker = marker;
+                }
+            }
+            return true;
         }
     }
 }

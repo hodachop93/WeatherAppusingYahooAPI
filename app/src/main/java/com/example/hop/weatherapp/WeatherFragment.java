@@ -1,6 +1,7 @@
 package com.example.hop.weatherapp;
 
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class WeatherFragment extends Fragment {
     String jsonString = null;
     YahooWeatherData yhdata = null;
     String city;
+    ProgressDialog progressDialog;
 
     public WeatherFragment() {
 
@@ -67,6 +69,11 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Đang tải thông tin ...");
+        progressDialog.setMessage("Vui lòng chờ ...");
+        progressDialog.show();
         updateWeather(new CityPreference(getActivity()).getCity());
 
     }
@@ -171,6 +178,7 @@ public class WeatherFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "Sorry, no weather data found", Toast.LENGTH_LONG).show();
             }
+            progressDialog.dismiss();
         }
     }
 
